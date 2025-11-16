@@ -1,0 +1,121 @@
+[
+  {
+    "id": 1,
+    "title": "1～5のだん",
+    "description": "じゅんばん・よみあり",
+    "totalQuestions": 90,
+    "questionsPerRound": 45,
+    "timePerQuestion": 3,
+    "totalTime": 270,
+    "targetTime": 270,
+    "hasReading": true,
+    "isRandom": false,
+    "range": {
+      "min": 1,
+      "max": 5
+    },
+    "isHoleQuestion": false
+  },
+  {
+    "id": 2,
+    "title": "6～9のだん",
+    "description": "じゅんばん・よみあり",
+    "totalQuestions": 72,
+    "questionsPerRound": 36,
+    "timePerQuestion": 3,
+    "totalTime": 216,
+    "targetTime": 210,
+    "hasReading": true,
+    "isRandom": false,
+    "range": {
+      "min": 6,
+      "max": 9
+    },
+    "isHoleQuestion": false
+  },
+  {
+    "id": 3,
+    "title": "81問チャレンジ",
+    "description": "じゅんばん・よみあり",
+    "totalQuestions": 162,
+    "questionsPerRound": 81,
+    "timePerQuestion": 2.5,
+    "totalTime": 405,
+    "targetTime": 360,
+    "hasReading": true,
+    "isRandom": false,
+    "range": {
+      "min": 1,
+      "max": 9
+    },
+    "isHoleQuestion": false
+  },
+  {
+    "id": 4,
+    "title": "81問チャレンジ",
+    "description": "じゅんばん・よみなし",
+    "totalQuestions": 162,
+    "questionsPerRound": 81,
+    "timePerQuestion": 2.5,
+    "totalTime": 405,
+    "targetTime": 360,
+    "hasReading": false,
+    "isRandom": false,
+    "range": {
+      "min": 1,
+      "max": 9
+    },
+    "isHoleQuestion": false
+  },
+  {
+    "id": 5,
+    "title": "81問チャレンジ",
+    "description": "ランダム・よみあり",
+    "totalQuestions": 162,
+    "questionsPerRound": 81,
+    "timePerQuestion": 2.5,
+    "totalTime": 405,
+    "targetTime": 360,
+    "hasReading": true,
+    "isRandom": true,
+    "range": {
+      "min": 1,
+      "max": 9
+    },
+    "isHoleQuestion": false
+  },
+  {
+    "id": 6,
+    "title": "81問チャレンジ",
+    "description": "ランダム・よみなし",
+    "totalQuestions": 162,
+    "questionsPerRound": 81,
+    "timePerQuestion": 2.5,
+    "totalTime": 405,
+    "targetTime": 360,
+    "hasReading": false,
+    "isRandom": true,
+    "range": {
+      "min": 1,
+      "max": 9
+    },
+    "isHoleQuestion": false
+  },
+  {
+    "id": 7,
+    "title": "あなあきチャレンジ",
+    "description": "ランダム",
+    "totalQuestions": 162,
+    "questionsPerRound": 81,
+    "timePerQuestion": 2.5,
+    "totalTime": 405,
+    "targetTime": 360,
+    "hasReading": false,
+    "isRandom": true,
+    "range": {
+      "min": 1,
+      "max": 9
+    },
+    "isHoleQuestion": true
+  }
+]
