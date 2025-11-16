@@ -33,15 +33,15 @@ export const PrintPage: React.FC<PrintPageProps> = ({
   };
 
   return (
-    <div className="print-page bg-white shadow-lg mb-6 mx-auto" style={{ width: '182mm', minHeight: '257mm' }}>
-      <div className="p-8">
+    <div className="print-page bg-white shadow-lg mb-6 w-full sm:w-[182mm] mx-auto print:w-[182mm]" style={{ minHeight: '257mm' }}>
+      <div className="p-4 sm:p-8 print:p-8">
         {/* ヘッダー（1ページ目のみ） */}
         {isFirstPage && (
-          <header className="mb-6 pb-4 border-b-2 border-gray-300">
-            <h1 className="text-2xl font-bold text-center mb-4">
+          <header className="mb-4 sm:mb-6 pb-4 border-b-2 border-gray-300">
+            <h1 className="text-xl sm:text-2xl font-bold text-center mb-3 sm:mb-4">
               九九マスター - {levelTitle} 結果
             </h1>
-            <div className="grid grid-cols-2 gap-4 text-sm">
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 sm:gap-4 text-xs sm:text-sm">
               <div>
                 <span className="font-semibold">日付:</span> {date}
               </div>
@@ -66,23 +66,23 @@ export const PrintPage: React.FC<PrintPageProps> = ({
         )}
 
         {/* メッセージ */}
-        <div className="text-center mb-6">
-          <p className="text-xl font-bold text-purple-700">
+        <div className="text-center mb-4 sm:mb-6">
+          <p className="text-lg sm:text-xl font-bold text-purple-700">
             この九九をおぼえてね！
           </p>
-          <p className="text-sm text-gray-600 mt-1">
+          <p className="text-xs sm:text-sm text-gray-600 mt-1">
             （⭐は2回間違えた問題）
           </p>
         </div>
 
         {/* 問題一覧 */}
-        <div className="mb-8">
-          <div className="space-y-4">
+        <div className="mb-6 sm:mb-8">
+          <div className="space-y-3 sm:space-y-4">
             {questions.map((q) => {
               const { number, displayText, missingPart, isDoubleWrong } = q;
 
               return (
-                <div key={number} className="flex items-center gap-3 text-lg">
+                <div key={number} className="flex items-center gap-2 sm:gap-3 text-base sm:text-lg">
                   <span className="font-bold text-gray-700 w-8">
                     {getCircledNumber(number)}
                   </span>
@@ -123,11 +123,11 @@ export const PrintPage: React.FC<PrintPageProps> = ({
 
         {/* 答え（最後のページのみ） */}
         {isLastPage && (
-          <div className="mt-8 pt-6 border-t-2 border-gray-300">
-            <h3 className="text-lg font-bold text-center mb-4">【答え】</h3>
-            <div className="grid grid-cols-5 gap-4 text-center">
+          <div className="mt-6 sm:mt-8 pt-4 sm:pt-6 border-t-2 border-gray-300">
+            <h3 className="text-base sm:text-lg font-bold text-center mb-3 sm:mb-4">【答え】</h3>
+            <div className="grid grid-cols-3 sm:grid-cols-5 gap-3 sm:gap-4 text-center">
               {answers.map((a) => (
-                <div key={a.number} className="text-base">
+                <div key={a.number} className="text-sm sm:text-base">
                   {getCircledNumber(a.number)} <span className="font-bold">{a.answer}</span>
                 </div>
               ))}
@@ -137,8 +137,8 @@ export const PrintPage: React.FC<PrintPageProps> = ({
 
         {/* フッター */}
         {isLastPage && (
-          <footer className="mt-8 text-center">
-            <p className="text-lg font-semibold text-purple-700">
+          <footer className="mt-6 sm:mt-8 text-center">
+            <p className="text-base sm:text-lg font-semibold text-purple-700">
               がんばって覚えよう！
             </p>
           </footer>

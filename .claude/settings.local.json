@@ -16,7 +16,12 @@
       "Bash(cat:*)",
       "Bash(node:*)",
       "Bash(git checkout:*)",
-      "Bash(git merge:*)"
+      "Bash(git merge:*)",
+      "Bash(git worktree:*)",
+      "Read(//Users/fukayamasaki/feature_Ticket009/**)",
+      "Bash(git log:*)",
+      "Read(//Users/fukayamasaki/**)",
+      "Bash(npm run dev:*)"
     ],
     "deny": [],
     "ask": []

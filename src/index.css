@@ -8,3 +8,23 @@ body {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
+
+/* 横向き（ランドスケープ）対応 */
+@media (max-height: 600px) and (orientation: landscape) {
+  /* 問題画面の縦パディングを減らす */
+  .question-screen {
+    padding-top: 1rem !important;
+    padding-bottom: 1rem !important;
+  }
+
+  /* タイマーのフォントサイズを小さくする */
+  .timer-display {
+    font-size: 1.5rem !important;
+  }
+
+  /* 問題表示エリアのパディングを減らす */
+  .question-container {
+    padding-top: 1rem !important;
+    padding-bottom: 1rem !important;
+  }
+}

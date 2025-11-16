@@ -10,6 +10,7 @@ import { FeedbackAnimation } from '@/components/features/FeedbackAnimation';
 import { generateProblems, getCorrectAnswer } from '@/utils/problemGenerator';
 import { useTimer } from '@/hooks/useTimer';
 import { usePageTransition } from '@/hooks/usePageTransition';
+import { useIsMobile } from '@/hooks/useMediaQuery';
 
 interface QuestionScreenProps {
   levelConfig: LevelConfig;
@@ -34,6 +35,7 @@ export const QuestionScreen: React.FC<QuestionScreenProps> = ({
   const [showAnimation, setShowAnimation] = useState(false);
   const [animationType, setAnimationType] = useState<AnimationType | null>(null);
   const isVisible = usePageTransition();
+  const isMobile = useIsMobile();
 
   const timer = useTimer({
     targetTime: levelConfig.targetTime,
@@ -162,21 +164,21 @@ export const QuestionScreen: React.FC<QuestionScreenProps> = ({
   const displayValues = getDisplayValues();
 
   return (
-    <div className={`min-h-screen bg-gradient-to-br from-blue-100 to-purple-100 flex flex-col transition-opacity duration-500 ${isVisible ? 'opacity-100' : 'opacity-0'}`}>
+    <div className={`question-screen min-h-screen bg-gradient-to-br from-blue-100 to-purple-100 flex flex-col transition-opacity duration-500 ${isVisible ? 'opacity-100' : 'opacity-0'}`}>
       {/* ヘッダー */}
-      <header className="bg-white shadow-md py-4 px-6">
+      <header className="bg-white shadow-md py-3 px-4 sm:py-4 sm:px-6">
         <div className="container mx-auto flex justify-between items-center">
-          <h1 className="text-2xl font-bold text-gray-800">
+          <h1 className="text-lg sm:text-xl md:text-2xl font-bold text-gray-800">
             レベル{levelConfig.id}: {levelConfig.title}
           </h1>
-          <div className="text-sm text-gray-600">
+          <div className="text-xs sm:text-sm text-gray-600">
             問題 {currentIndex + 1} / {problems.length}
           </div>
         </div>
       </header>
 
       {/* タイマー */}
-      <div className="py-6">
+      <div className="py-4 sm:py-6">
         <Timer
           remainingSeconds={timer.remainingSeconds}
           totalSeconds={levelConfig.targetTime}
@@ -186,7 +188,7 @@ export const QuestionScreen: React.FC<QuestionScreenProps> = ({
 
       {/* 問題表示 */}
       <div className="flex-1 flex flex-col items-center justify-center px-4">
-        <div className="bg-white rounded-2xl shadow-xl p-8 md:p-12 max-w-4xl w-full">
+        <div className="question-container bg-white rounded-xl sm:rounded-2xl shadow-xl p-6 sm:p-8 md:p-12 max-w-4xl w-full mx-4 sm:mx-auto">
           {levelConfig.id === 1 && (
             <div className="text-center text-gray-600 mb-6">
               れんしゅうちゅう
@@ -203,13 +205,13 @@ export const QuestionScreen: React.FC<QuestionScreenProps> = ({
           />
 
           {/* 入力欄 */}
-          <div className="mt-8 flex flex-col items-center gap-4">
+          <div className="mt-6 sm:mt-8 flex flex-col items-center gap-3 sm:gap-4">
             {showCorrectAnswer ? (
               <div className="text-center">
-                <div className="text-5xl font-bold text-red-500 mb-4">
+                <div className="text-4xl sm:text-5xl font-bold text-red-500 mb-4">
                   {correctAnswer}
                 </div>
-                <p className="text-gray-600">
+                <p className="text-sm sm:text-base text-gray-600">
                   Enterを押して次の問題へ
                 </p>
               </div>
@@ -219,6 +221,7 @@ export const QuestionScreen: React.FC<QuestionScreenProps> = ({
                 onChange={handleInputChange}
                 onSubmit={handleKeySubmit}
                 autoFocus
+                className={isMobile ? 'w-20 h-14 text-3xl' : 'w-24 h-16 text-4xl'}
               />
             )}
           </div>
@@ -226,7 +229,7 @@ export const QuestionScreen: React.FC<QuestionScreenProps> = ({
       </div>
 
       {/* フッター */}
-      <div className="p-6 flex justify-end">
+      <div className="p-4 sm:p-6 flex justify-end">
         <Button variant="danger" onClick={onQuit}>
           やめる
         </Button>

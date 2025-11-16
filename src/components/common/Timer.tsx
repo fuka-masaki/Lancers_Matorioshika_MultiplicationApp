@@ -24,7 +24,7 @@ export const Timer: React.FC<TimerProps> = ({
 
   return (
     <div className="flex flex-col items-center gap-2">
-      <div className={`text-3xl md:text-4xl font-bold transition-all ${getColorClass()}`}>
+      <div className={`timer-display text-3xl md:text-4xl font-bold transition-all ${getColorClass()}`}>
         {isOvertime && '+'}{formatTime(Math.abs(remainingSeconds))}
       </div>
       <div className="w-full max-w-md h-2 bg-gray-200 rounded-full overflow-hidden">
