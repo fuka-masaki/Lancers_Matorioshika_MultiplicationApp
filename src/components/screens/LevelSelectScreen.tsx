@@ -1,6 +1,6 @@
-import { useEffect, useState } from 'react';
 import { LevelCard } from '@/components/common';
 import { getLevelConfigs } from '@/data/dataLoader';
+import { usePageTransition } from '@/hooks/usePageTransition';
 
 interface LevelSelectScreenProps {
   onLevelSelect: (levelId: number) => void;
@@ -9,12 +9,8 @@ interface LevelSelectScreenProps {
 export const LevelSelectScreen: React.FC<LevelSelectScreenProps> = ({
   onLevelSelect,
 }) => {
-  const [isVisible, setIsVisible] = useState(false);
+  const isVisible = usePageTransition();
   const levelConfigs = getLevelConfigs();
-
-  useEffect(() => {
-    setTimeout(() => setIsVisible(true), 100);
-  }, []);
 
   return (
     <div

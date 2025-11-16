@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { LevelConfig } from '@/types';
 import { formatTime } from '@/utils/timeUtils';
 
@@ -9,11 +9,20 @@ interface LevelCardProps {
 
 export const LevelCard: React.FC<LevelCardProps> = ({ config, onClick }) => {
   const { id, title, description, totalQuestions, targetTime } = config;
+  const [isHovered, setIsHovered] = useState(false);
 
   return (
     <button
       onClick={onClick}
-      className="w-full p-6 bg-white rounded-xl shadow-md hover:shadow-xl transition-all duration-300 hover:scale-105 active:scale-95 border-2 border-transparent hover:border-purple-400"
+      onMouseEnter={() => setIsHovered(true)}
+      onMouseLeave={() => setIsHovered(false)}
+      className={`
+        w-full p-6 bg-white rounded-xl shadow-md
+        transition-all duration-300
+        hover:shadow-xl hover:scale-105 active:scale-95
+        border-2 border-transparent hover:border-purple-400
+        ${isHovered ? 'animate-float' : ''}
+      `}
     >
       <div className="flex items-center justify-between mb-3">
         <div className="flex items-center gap-3">

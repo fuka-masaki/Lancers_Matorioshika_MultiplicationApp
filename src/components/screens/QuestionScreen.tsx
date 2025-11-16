@@ -1,13 +1,15 @@
 import React, { useState, useEffect, useCallback, useRef } from 'react';
-import { LevelConfig, ProblemInstance, AttemptRecord } from '@/types';
+import { LevelConfig, ProblemInstance, AttemptRecord, AnimationType } from '@/types';
 import {
   Button,
   Timer,
   NumberInput,
   ProblemDisplay,
 } from '@/components/common';
+import { FeedbackAnimation } from '@/components/features/FeedbackAnimation';
 import { generateProblems, getCorrectAnswer } from '@/utils/problemGenerator';
 import { useTimer } from '@/hooks/useTimer';
+import { usePageTransition } from '@/hooks/usePageTransition';
 
 interface QuestionScreenProps {
   levelConfig: LevelConfig;
@@ -29,6 +31,9 @@ export const QuestionScreen: React.FC<QuestionScreenProps> = ({
   const [showCorrectAnswer, setShowCorrectAnswer] = useState(false);
   const [correctAnswer, setCorrectAnswer] = useState<number | null>(null);
   const [questionStartTime, setQuestionStartTime] = useState(Date.now());
+  const [showAnimation, setShowAnimation] = useState(false);
+  const [animationType, setAnimationType] = useState<AnimationType | null>(null);
+  const isVisible = usePageTransition();
 
   const timer = useTimer({
     targetTime: levelConfig.targetTime,
@@ -75,17 +80,26 @@ export const QuestionScreen: React.FC<QuestionScreenProps> = ({
     }
 
     if (isCorrect) {
-      // 正解：次の問題へ
-      if (currentIndex < problems.length - 1) {
-        moveToNextQuestion();
-      }
+      // 正解：アニメーション表示後、次の問題へ
+      setAnimationType('correct');
+      setShowAnimation(true);
+      setTimeout(() => {
+        setShowAnimation(false);
+        if (currentIndex < problems.length - 1) {
+          moveToNextQuestion();
+        }
+      }, 800);
     } else {
-      // 不正解：正解を表示
+      // 不正解：アニメーション表示後、正解を表示
+      setAnimationType('incorrect');
+      setShowAnimation(true);
+      setTimeout(() => {
+        setShowAnimation(false);
+      }, 800);
+
+      // 正解を表示
       setCorrectAnswer(answer);
       setShowCorrectAnswer(true);
-
-      // 2秒後に次の問題へ（Enterで進める場合はこの処理を変更）
-      // ここでは、ユーザーがEnterを押すまで待つ仕様
     }
   }, [currentProblem, userInput, questionStartTime, currentIndex, problems.length, timer, onComplete]);
 
@@ -148,7 +162,7 @@ export const QuestionScreen: React.FC<QuestionScreenProps> = ({
   const displayValues = getDisplayValues();
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-blue-100 to-purple-100 flex flex-col">
+    <div className={`min-h-screen bg-gradient-to-br from-blue-100 to-purple-100 flex flex-col transition-opacity duration-500 ${isVisible ? 'opacity-100' : 'opacity-0'}`}>
       {/* ヘッダー */}
       <header className="bg-white shadow-md py-4 px-6">
         <div className="container mx-auto flex justify-between items-center">
@@ -217,6 +231,11 @@ export const QuestionScreen: React.FC<QuestionScreenProps> = ({
           やめる
         </Button>
       </div>
+
+      {/* アニメーション */}
+      {showAnimation && animationType && (
+        <FeedbackAnimation type={animationType} />
+      )}
     </div>
   );
 };

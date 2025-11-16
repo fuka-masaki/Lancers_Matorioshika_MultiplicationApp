@@ -3,6 +3,7 @@ import { LevelResult, LevelConfig } from '@/types';
 import { Button } from '@/components/common/Button';
 import { formatTimeJapanese } from '@/utils/timeUtils';
 import { WrongAnswerList } from '@/components/features/WrongAnswerList';
+import { usePageTransition } from '@/hooks/usePageTransition';
 
 interface ResultScreenProps {
   levelConfig: LevelConfig;
@@ -17,6 +18,7 @@ export const ResultScreen: React.FC<ResultScreenProps> = ({
   onBackToLevelSelect,
   onPrint,
 }) => {
+  const isVisible = usePageTransition();
   const {
     accuracy,
     totalTimeSpent,
@@ -28,7 +30,7 @@ export const ResultScreen: React.FC<ResultScreenProps> = ({
   const hasWrongAnswers = wrongAnswerRecords.length > 0;
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-blue-100 to-purple-100">
+    <div className={`min-h-screen bg-gradient-to-br from-blue-100 to-purple-100 transition-opacity duration-500 ${isVisible ? 'opacity-100' : 'opacity-0'}`}>
       <div className="container mx-auto px-4 py-8">
         {/* ヘッダー */}
         <header className="text-center mb-8">
