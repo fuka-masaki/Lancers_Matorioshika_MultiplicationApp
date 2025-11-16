@@ -1,0 +1,43 @@
+/* 印刷用スタイル */
+@media print {
+  /* 不要な要素を非表示 */
+  .no-print {
+    display: none !important;
+  }
+
+  /* ページサイズをB5に設定 */
+  @page {
+    size: B5;
+    margin: 15mm;
+  }
+
+  /* ページ区切り */
+  .print-page {
+    page-break-after: always;
+    page-break-inside: avoid;
+    box-shadow: none !important;
+    margin: 0 !important;
+  }
+
+  .print-page:last-child {
+    page-break-after: auto;
+  }
+
+  /* 背景色を印刷 */
+  * {
+    -webkit-print-color-adjust: exact;
+    print-color-adjust: exact;
+  }
+
+  /* 影を削除 */
+  .shadow-lg,
+  .shadow-xl {
+    box-shadow: none !important;
+  }
+}
+
+/* プレビュー時のスタイル */
+.print-page {
+  background: white;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}

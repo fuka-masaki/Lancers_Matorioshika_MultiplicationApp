@@ -11,7 +11,7 @@ import { useTimer } from '@/hooks/useTimer';
 
 interface QuestionScreenProps {
   levelConfig: LevelConfig;
-  onComplete: (attempts: AttemptRecord[]) => void;
+  onComplete: (attempts: AttemptRecord[], totalTimeSpent: number) => void;
   onQuit: () => void;
 }
 
@@ -70,7 +70,8 @@ export const QuestionScreen: React.FC<QuestionScreenProps> = ({
     if (isCorrect && currentIndex === problems.length - 1) {
       timer.pause();
       // 次のレンダリングサイクルで onComplete を呼ぶ
-      setTimeout(() => onComplete(attemptsRef.current), 0);
+      const totalTimeSpent = levelConfig.targetTime - timer.remainingSeconds;
+      setTimeout(() => onComplete(attemptsRef.current, totalTimeSpent), 0);
     }
 
     if (isCorrect) {

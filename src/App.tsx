@@ -1,24 +1,54 @@
 import { useState } from 'react';
-import { QuestionScreen } from '@/components/screens';
+import { QuestionScreen, ResultScreen, PrintPreviewScreen } from '@/components/screens';
 import { getLevelConfig } from '@/data/dataLoader';
-import { AttemptRecord } from '@/types';
+import { AttemptRecord, LevelResult } from '@/types';
+import { createLevelResult } from '@/utils/resultAnalyzer';
+import { generatePrintData } from '@/utils/printDataGenerator';
+
+type ScreenType = 'levelSelect' | 'question' | 'result' | 'printPreview';
 
 function App() {
+  const [currentScreen, setCurrentScreen] = useState<ScreenType>('levelSelect');
   const [selectedLevel, setSelectedLevel] = useState<number | null>(null);
+  const [levelResult, setLevelResult] = useState<LevelResult | null>(null);
 
   const handleLevelSelect = (levelId: number) => {
     console.log('Selected level:', levelId);
     setSelectedLevel(levelId);
+    setCurrentScreen('question');
   };
 
-  const handleComplete = (attempts: AttemptRecord[]) => {
+  const handleComplete = (attempts: AttemptRecord[], totalTimeSpent: number) => {
     console.log('Quiz completed!', attempts);
-    // 結果画面への遷移（TICKET-007で実装予定）
-    setSelectedLevel(null);
+
+    if (!selectedLevel) return;
+
+    const levelConfig = getLevelConfig(selectedLevel);
+    if (!levelConfig) return;
+
+    const result = createLevelResult(levelConfig, attempts, totalTimeSpent);
+    setLevelResult(result);
+    setCurrentScreen('result');
   };
 
   const handleQuit = () => {
     setSelectedLevel(null);
+    setLevelResult(null);
+    setCurrentScreen('levelSelect');
+  };
+
+  const handleBackToLevelSelect = () => {
+    setSelectedLevel(null);
+    setLevelResult(null);
+    setCurrentScreen('levelSelect');
+  };
+
+  const handlePrint = () => {
+    setCurrentScreen('printPreview');
+  };
+
+  const handleClosePrintPreview = () => {
+    setCurrentScreen('result');
   };
 
   // 簡易的なレベル選択画面（TICKET-005で正式に実装予定）
@@ -47,13 +77,29 @@ function App() {
 
   return (
     <div>
-      {selectedLevel === null || !levelConfig ? (
-        <SimpleLevelSelect />
-      ) : (
+      {currentScreen === 'levelSelect' && <SimpleLevelSelect />}
+
+      {currentScreen === 'question' && levelConfig && (
         <QuestionScreen
           levelConfig={levelConfig}
           onComplete={handleComplete}
           onQuit={handleQuit}
+        />
+      )}
+
+      {currentScreen === 'result' && levelConfig && levelResult && (
+        <ResultScreen
+          levelConfig={levelConfig}
+          result={levelResult}
+          onBackToLevelSelect={handleBackToLevelSelect}
+          onPrint={handlePrint}
+        />
+      )}
+
+      {currentScreen === 'printPreview' && levelConfig && levelResult && (
+        <PrintPreviewScreen
+          printData={generatePrintData(levelConfig, levelResult)}
+          onClose={handleClosePrintPreview}
         />
       )}
     </div>
