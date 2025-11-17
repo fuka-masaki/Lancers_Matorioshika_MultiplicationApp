@@ -47,3 +47,12 @@ export function useIsTablet(): boolean {
 export function useIsDesktop(): boolean {
   return useMediaQuery('(min-width: 1024px)');
 }
+
+/**
+ * タッチ操作が可能なデバイスかどうかを返すフック
+ * iPad、タブレット、タッチモニター付きPCなどを検出
+ * @returns タッチ可能なデバイスの場合true
+ */
+export function useHasTouch(): boolean {
+  return useMediaQuery('(any-pointer: coarse)');
+}

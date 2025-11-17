@@ -29,7 +29,9 @@
       "WebSearch",
       "WebFetch(domain:stackoverflow.com)",
       "Read(//var/folders/1b/zwdwr51s7wz2bb3t2kfmlvw00000gn/T/TemporaryItems/NSIRD_screencaptureui_fAR5Jz/**)",
-      "Bash(npx tsc --noEmit)"
+      "Bash(npx tsc --noEmit)",
+      "Bash(gh:*)",
+      "Bash(vercel --version:*)"
     ],
     "deny": [],
     "ask": []

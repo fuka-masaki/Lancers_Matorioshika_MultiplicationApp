@@ -10,7 +10,7 @@ import {
 import { generateProblems, getCorrectAnswer } from '@/utils/problemGenerator';
 import { useTimer } from '@/hooks/useTimer';
 import { usePageTransition } from '@/hooks/usePageTransition';
-import { useIsMobile } from '@/hooks/useMediaQuery';
+import { useIsMobile, useHasTouch } from '@/hooks/useMediaQuery';
 
 interface QuestionScreenProps {
   levelConfig: LevelConfig;
@@ -36,6 +36,22 @@ export const QuestionScreen: React.FC<QuestionScreenProps> = ({
   const [animationType, setAnimationType] = useState<AnimationType | null>(null);
   const isVisible = usePageTransition();
   const isMobile = useIsMobile();
+  const hasTouch = useHasTouch();
+
+  // 大画面でのキーボード表示状態（iPad Proなど用）
+  const isLargeScreen = !isMobile;
+  const [isKeyboardVisible, setIsKeyboardVisible] = useState(hasTouch && isLargeScreen);
+
+  // カスタムキーボード表示切り替え時の処理
+  const toggleKeyboard = () => {
+    const newState = !isKeyboardVisible;
+    setIsKeyboardVisible(newState);
+
+    // カスタムキーボードを表示する場合、inputのフォーカスを外す（OSキーボード抑制）
+    if (newState && document.activeElement instanceof HTMLElement) {
+      document.activeElement.blur();
+    }
+  };
 
   const timer = useTimer({
     targetTime: levelConfig.targetTime,
@@ -417,10 +433,12 @@ export const QuestionScreen: React.FC<QuestionScreenProps> = ({
             <div className="mt-8 flex flex-col items-center gap-4">
               <NumberInput
                 value={userInput}
-                onChange={handleInputChange}
-                onSubmit={handleKeySubmit}
+                onChange={isKeyboardVisible ? () => {} : handleInputChange}
+                onSubmit={isKeyboardVisible ? () => {} : handleKeySubmit}
                 disabled={showCorrectAnswer}
-                autoFocus={true}
+                autoFocus={!isKeyboardVisible}
+                readOnly={isKeyboardVisible}
+                inputMode={isKeyboardVisible ? 'none' : 'text'}
                 className={`w-24 h-16 text-4xl ${showCorrectAnswer ? 'border-red-500 bg-red-50' : ''}`}
               />
 
@@ -448,12 +466,37 @@ export const QuestionScreen: React.FC<QuestionScreenProps> = ({
         </div>
       )}
 
+      {/* 大画面用：カスタムキーボード（トグル式） */}
+      {isLargeScreen && isKeyboardVisible && (
+        <div className="bg-slate-100 border-t border-slate-200 pt-4 pb-4 animate-slide-up flex-shrink-0">
+          <CustomKeyboard
+            onNumberClick={handleNumberClick}
+            onClear={handleClear}
+            onSubmit={handleCustomKeyboardSubmit}
+            disabled={false}
+            showNext={showCorrectAnswer}
+          />
+        </div>
+      )}
+
       {/* フッター - デスクトップのみ表示 */}
       {!isMobile && (
-        <div className="flex p-4 sm:p-6 justify-end">
-          <Button variant="danger" onClick={onQuit}>
-            やめる
-          </Button>
+        <div className="flex p-4 sm:p-6 justify-between items-center">
+          {/* キーボードトグルボタン */}
+          {isLargeScreen && (
+            <button
+              onClick={toggleKeyboard}
+              className="px-6 py-3 bg-blue-500 hover:bg-blue-600 text-white rounded-lg font-semibold shadow-md hover:shadow-lg transition-all flex items-center gap-2"
+            >
+              <span className="text-xl">{isKeyboardVisible ? '▼' : '⌨️'}</span>
+              <span>{isKeyboardVisible ? 'キーボードを閉じる' : 'キーボードを表示'}</span>
+            </button>
+          )}
+          <div className={isLargeScreen ? '' : 'ml-auto'}>
+            <Button variant="danger" onClick={onQuit}>
+              やめる
+            </Button>
+          </div>
         </div>
       )}
     </div>

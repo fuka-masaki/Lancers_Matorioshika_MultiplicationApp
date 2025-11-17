@@ -42,16 +42,6 @@ export const LevelSelectScreen: React.FC<LevelSelectScreenProps> = ({
           ))}
         </div>
 
-        {/* 開発用プレビューボタン */}
-        <div className="max-w-md mx-auto mt-8">
-          <button
-            onClick={onOpenResultPreview}
-            className="w-full py-3 px-6 bg-gradient-to-r from-amber-500 to-orange-500 text-white font-bold rounded-lg shadow-md hover:shadow-lg hover:scale-105 transition-all border-2 border-amber-600"
-          >
-            🛠️ 結果画面プレビュー（開発用）
-          </button>
-        </div>
-
         {/* フッター */}
         <footer className="text-center mt-12 text-sm text-slate-500">
           <p>Bright 珠算教場</p>
