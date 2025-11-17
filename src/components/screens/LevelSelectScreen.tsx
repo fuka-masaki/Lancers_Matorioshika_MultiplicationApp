@@ -4,12 +4,10 @@ import { usePageTransition } from '@/hooks/usePageTransition';
 
 interface LevelSelectScreenProps {
   onLevelSelect: (levelId: number) => void;
-  onOpenResultPreview: () => void;
 }
 
 export const LevelSelectScreen: React.FC<LevelSelectScreenProps> = ({
   onLevelSelect,
-  onOpenResultPreview,
 }) => {
   const isVisible = usePageTransition();
   const levelConfigs = getLevelConfigs();

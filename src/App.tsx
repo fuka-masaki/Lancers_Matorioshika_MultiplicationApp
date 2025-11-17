@@ -51,10 +51,6 @@ function App() {
     setCurrentScreen('result');
   };
 
-  const handleOpenResultPreview = () => {
-    setCurrentScreen('resultPreview');
-  };
-
   const levelConfig = selectedLevel ? getLevelConfig(selectedLevel) : null;
 
   return (
@@ -62,7 +58,6 @@ function App() {
       {currentScreen === 'levelSelect' && (
         <LevelSelectScreen
           onLevelSelect={handleLevelSelect}
-          onOpenResultPreview={handleOpenResultPreview}
         />
       )}
 
