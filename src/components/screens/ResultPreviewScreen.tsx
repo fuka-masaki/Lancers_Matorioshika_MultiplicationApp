@@ -56,6 +56,7 @@ export const ResultPreviewScreen: React.FC<ResultPreviewScreenProps> = ({
         levelConfig={levelConfig}
         result={resultData}
         onBackToLevelSelect={() => setShowResult(false)}
+        onRetry={() => setShowResult(false)}
         onPrint={() => setShowPrint(true)}
       />
     );

@@ -9,6 +9,7 @@ interface ResultScreenProps {
   levelConfig: LevelConfig;
   result: LevelResult;
   onBackToLevelSelect: () => void;
+  onRetry: () => void;
   onPrint: () => void;
 }
 
@@ -16,6 +17,7 @@ export const ResultScreen: React.FC<ResultScreenProps> = ({
   levelConfig,
   result,
   onBackToLevelSelect,
+  onRetry,
   onPrint,
 }) => {
   const isVisible = usePageTransition();
@@ -24,6 +26,9 @@ export const ResultScreen: React.FC<ResultScreenProps> = ({
     totalTimeSpent,
     targetTime,
     isPassed,
+    isTimedOut,
+    answeredQuestions,
+    totalQuestions,
     wrongAnswerRecords,
   } = result;
 
@@ -44,6 +49,19 @@ export const ResultScreen: React.FC<ResultScreenProps> = ({
 
         {/* 結果カード */}
         <div className="max-w-2xl mx-auto bg-white rounded-xl sm:rounded-2xl shadow-2xl shadow-blue-500/10 p-6 sm:p-8 mb-6 sm:mb-8">
+          {/* 時間切れバッジ */}
+          {isTimedOut && (
+            <div className="mb-4 sm:mb-6 bg-red-50 border-2 border-red-300 rounded-lg p-3 sm:p-4">
+              <div className="flex items-center justify-center gap-2">
+                <span className="text-2xl sm:text-3xl">⏰</span>
+                <span className="text-base sm:text-lg font-bold text-red-700">時間切れ</span>
+              </div>
+              <p className="text-xs sm:text-sm text-red-600 text-center mt-2">
+                {answeredQuestions}/{totalQuestions}問 解答
+              </p>
+            </div>
+          )}
+
           {/* タイムと正答率 */}
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-6 mb-6 sm:mb-8">
             <div className="text-center">
@@ -97,7 +115,9 @@ export const ResultScreen: React.FC<ResultScreenProps> = ({
                 もう少し！
               </h2>
               <p className="text-sm sm:text-base text-slate-700">
-                {hasWrongAnswers
+                {isTimedOut
+                  ? '時間内にすべての問題を解けるように練習しよう！'
+                  : hasWrongAnswers
                   ? '間違えた問題を復習してもう一度チャレンジしよう！'
                   : 'タイムを縮めてもう一度チャレンジしよう！'}
               </p>
@@ -113,26 +133,39 @@ export const ResultScreen: React.FC<ResultScreenProps> = ({
         )}
 
         {/* ボタン */}
-        <div className="max-w-2xl mx-auto flex flex-col sm:flex-row gap-3 sm:gap-4 mb-4 xs:mb-6 safe-area-inset-bottom">
+        <div className="max-w-2xl mx-auto flex flex-col gap-3 mb-4 xs:mb-6 safe-area-inset-bottom">
+          {/* もう一度チャレンジボタン */}
           <Button
-            variant="secondary"
+            variant="primary"
             size="large"
             fullWidth
-            onClick={onBackToLevelSelect}
+            onClick={onRetry}
           >
-            レベル選択に戻る
+            もう一度チャレンジ
           </Button>
 
-          {hasWrongAnswers && (
+          {/* その他のボタン */}
+          <div className="flex flex-col sm:flex-row gap-3 sm:gap-4">
             <Button
-              variant="primary"
+              variant="secondary"
               size="large"
               fullWidth
-              onClick={onPrint}
+              onClick={onBackToLevelSelect}
             >
-              印刷する
+              レベル選択に戻る
             </Button>
-          )}
+
+            {hasWrongAnswers && (
+              <Button
+                variant="secondary"
+                size="large"
+                fullWidth
+                onClick={onPrint}
+              >
+                印刷する
+              </Button>
+            )}
+          </div>
         </div>
       </div>
     </div>

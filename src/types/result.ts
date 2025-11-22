@@ -28,6 +28,8 @@ export interface LevelResult {
   totalTimeSpent: number;        // 実際にかかった時間（秒）
   targetTime: number;            // 目標タイム（秒）
   isPassed: boolean;             // 合格したか
+  isTimedOut: boolean;           // 時間切れで終了したか
+  answeredQuestions: number;     // 解答した問題数
   wrongAnswerRecords: WrongAnswerRecord[]; // 間違えた問題
   allAttempts: AttemptRecord[];  // 全ての解答記録
   date: string;                  // 実施日（ISO 8601形式）

@@ -4,10 +4,12 @@ import { usePageTransition } from '@/hooks/usePageTransition';
 
 interface LevelSelectScreenProps {
   onLevelSelect: (levelId: number) => void;
+  onOpenResultPreview?: () => void;
 }
 
 export const LevelSelectScreen: React.FC<LevelSelectScreenProps> = ({
   onLevelSelect,
+  onOpenResultPreview,
 }) => {
   const isVisible = usePageTransition();
   const levelConfigs = getLevelConfigs();
@@ -39,6 +41,18 @@ export const LevelSelectScreen: React.FC<LevelSelectScreenProps> = ({
             />
           ))}
         </div>
+
+        {/* 開発用ボタン */}
+        {onOpenResultPreview && (
+          <div className="max-w-md mx-auto mt-8">
+            <button
+              onClick={onOpenResultPreview}
+              className="w-full py-3 px-6 bg-slate-600 hover:bg-slate-700 text-white rounded-lg font-semibold shadow-md hover:shadow-lg transition-all"
+            >
+              🔧 結果画面プレビュー（開発用）
+            </button>
+          </div>
+        )}
 
         {/* フッター */}
         <footer className="text-center mt-12 text-sm text-slate-500">

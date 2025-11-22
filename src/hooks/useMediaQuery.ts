@@ -55,3 +55,26 @@ export function useIsDesktop(): boolean {
 export function useHasTouch(): boolean {
   return useMediaQuery('(any-pointer: coarse)');
 }
+
+/**
+ * iPadサイズのデバイスかどうかを返すフック
+ * 768px-1366pxの範囲でタッチ可能なデバイスを検出
+ * iPad (9.7インチ): 768x1024、iPad Air: 820x1180、iPad Pro: 834x1194 / 1024x1366 に対応
+ * @returns iPadサイズのデバイスの場合true
+ */
+export function useIsIPad(): boolean {
+  const isTabletSize = useMediaQuery('(min-width: 768px) and (max-width: 1366px)');
+  const hasTouch = useHasTouch();
+  const isNotLargeDesktop = useMediaQuery('(max-width: 1439px)'); // 大型デスクトップを除外
+  return isTabletSize && hasTouch && isNotLargeDesktop;
+}
+
+/**
+ * iPad横向き（ランドスケープモード）かどうかを返すフック
+ * @returns iPad横向きの場合true
+ */
+export function useIsIPadLandscape(): boolean {
+  const isIPad = useIsIPad();
+  const isLandscape = useMediaQuery('(orientation: landscape)');
+  return isIPad && isLandscape;
+}

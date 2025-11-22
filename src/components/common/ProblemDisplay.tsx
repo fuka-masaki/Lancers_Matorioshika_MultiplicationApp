@@ -10,6 +10,9 @@ interface ProblemDisplayProps {
   questionType: QuestionType;
   size?: 'small' | 'medium' | 'large';
   highlightPart?: 'multiplicand' | 'multiplier' | 'answer'; // 赤色で強調表示する部分
+  isIPad?: boolean; // iPad用の最適化フラグ
+  isIPadLandscape?: boolean; // iPad横向き用の最適化フラグ
+  isKeyboardVisible?: boolean; // キーボード表示時のみ最適化を適用
 }
 
 export const ProblemDisplay: React.FC<ProblemDisplayProps> = ({
@@ -21,17 +24,31 @@ export const ProblemDisplay: React.FC<ProblemDisplayProps> = ({
   questionType: _questionType,
   size = 'large',
   highlightPart,
+  isIPad = false,
+  isIPadLandscape = false,
+  isKeyboardVisible = false,
 }) => {
+  // iPad横向きでキーボード表示時のみコンパクト化
+  const shouldCompact = isIPadLandscape && isKeyboardVisible;
+
   const sizeClasses = {
     small: 'text-2xl',
     medium: 'text-4xl',
-    large: 'text-2xl xs:text-3xl sm:text-4xl md:text-5xl lg:text-6xl', // モバイル最適化
+    large: shouldCompact
+      ? 'text-2xl sm:text-3xl' // iPad横向き+キーボード表示時：コンパクト
+      : isIPad
+      ? 'text-3xl sm:text-4xl' // iPad縦向き：コンパクト
+      : 'text-2xl xs:text-3xl sm:text-4xl md:text-5xl lg:text-6xl', // モバイル・デスクトップ最適化
   };
 
   const readingSize = {
     small: 'text-sm',
     medium: 'text-base',
-    large: 'text-[10px] xs:text-xs sm:text-sm md:text-base lg:text-xl', // モバイル最適化：さらに小さく
+    large: shouldCompact
+      ? 'text-[10px] sm:text-xs' // iPad横向き+キーボード表示時：小さい読み仮名
+      : isIPad
+      ? 'text-xs sm:text-sm' // iPad縦向き：コンパクトな読み仮名
+      : 'text-[10px] xs:text-xs sm:text-sm md:text-base lg:text-xl', // モバイル・デスクトップ最適化
   };
 
   const NumberWithReading: React.FC<{
@@ -49,8 +66,13 @@ export const ProblemDisplay: React.FC<ProblemDisplayProps> = ({
     </div>
   );
 
+  // iPad横向き+キーボード表示時のみギャップを調整
+  const gapClass = shouldCompact
+    ? 'gap-2 sm:gap-3' // iPad横向き+キーボード表示時：小さいギャップ
+    : 'gap-1 xs:gap-2 sm:gap-4 md:gap-6'; // 通常のギャップ
+
   return (
-    <div className="flex items-center justify-center gap-1 xs:gap-2 sm:gap-4 md:gap-6">
+    <div className={`flex items-center justify-center ${gapClass}`}>
       <NumberWithReading
         value={multiplicand}
         readingText={reading?.multiplicand}

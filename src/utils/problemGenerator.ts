@@ -34,31 +34,24 @@ export function generateProblems(config: LevelConfig): ProblemInstance[] {
     ? getMultiplicationProblems()
     : getProblemsByRange(config.range.min, config.range.max);
 
-  // 2周分の問題を生成
-  const round1 = config.isRandom ? shuffle(baseProblems) : baseProblems;
-  const round2 = config.isRandom ? shuffle(baseProblems) : baseProblems;
+  // 周回数を判定（totalQuestions / questionsPerRound）
+  const numberOfRounds = Math.round(config.totalQuestions / config.questionsPerRound);
 
   const allProblems: ProblemInstance[] = [];
 
-  // 1周目
-  round1.forEach((problem) => {
-    allProblems.push({
-      problem,
-      questionType: config.isHoleQuestion ? getRandomQuestionType() : 'normal',
-      index: allProblems.length,
-      roundNumber: 1,
-    });
-  });
+  // 各周の問題を生成
+  for (let round = 1; round <= numberOfRounds; round++) {
+    const roundProblems = config.isRandom ? shuffle(baseProblems) : baseProblems;
 
-  // 2周目
-  round2.forEach((problem) => {
-    allProblems.push({
-      problem,
-      questionType: config.isHoleQuestion ? getRandomQuestionType() : 'normal',
-      index: allProblems.length,
-      roundNumber: 2,
+    roundProblems.forEach((problem) => {
+      allProblems.push({
+        problem,
+        questionType: config.isHoleQuestion ? getRandomQuestionType() : 'normal',
+        index: allProblems.length,
+        roundNumber: round as 1 | 2,
+      });
     });
-  });
+  }
 
   return allProblems;
 }

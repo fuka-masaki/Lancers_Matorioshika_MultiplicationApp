@@ -18,15 +18,15 @@ function App() {
     setCurrentScreen('question');
   };
 
-  const handleComplete = (attempts: AttemptRecord[], totalTimeSpent: number) => {
-    console.log('Quiz completed!', attempts);
+  const handleComplete = (attempts: AttemptRecord[], totalTimeSpent: number, isTimedOut: boolean = false) => {
+    console.log('Quiz completed!', attempts, 'isTimedOut:', isTimedOut);
 
     if (!selectedLevel) return;
 
     const levelConfig = getLevelConfig(selectedLevel);
     if (!levelConfig) return;
 
-    const result = createLevelResult(levelConfig, attempts, totalTimeSpent);
+    const result = createLevelResult(levelConfig, attempts, totalTimeSpent, isTimedOut);
     setLevelResult(result);
     setCurrentScreen('result');
   };
@@ -43,12 +43,21 @@ function App() {
     setCurrentScreen('levelSelect');
   };
 
+  const handleRetry = () => {
+    setLevelResult(null);
+    setCurrentScreen('question');
+  };
+
   const handlePrint = () => {
     setCurrentScreen('printPreview');
   };
 
   const handleClosePrintPreview = () => {
     setCurrentScreen('result');
+  };
+
+  const handleOpenResultPreview = () => {
+    setCurrentScreen('resultPreview');
   };
 
   const levelConfig = selectedLevel ? getLevelConfig(selectedLevel) : null;
@@ -58,6 +67,7 @@ function App() {
       {currentScreen === 'levelSelect' && (
         <LevelSelectScreen
           onLevelSelect={handleLevelSelect}
+          onOpenResultPreview={handleOpenResultPreview}
         />
       )}
 
@@ -74,6 +84,7 @@ function App() {
           levelConfig={levelConfig}
           result={levelResult}
           onBackToLevelSelect={handleBackToLevelSelect}
+          onRetry={handleRetry}
           onPrint={handlePrint}
         />
       )}

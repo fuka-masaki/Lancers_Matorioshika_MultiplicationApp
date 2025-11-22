@@ -48,16 +48,24 @@ export function analyzeWrongAnswers(
 export function createLevelResult(
   levelConfig: LevelConfig,
   attempts: AttemptRecord[],
-  totalTimeSpent: number
+  totalTimeSpent: number,
+  isTimedOut: boolean = false
 ): LevelResult {
-  const totalQuestions = attempts.length;
+  const answeredQuestions = attempts.length;
+  const totalQuestions = levelConfig.totalQuestions;
   const correctAnswers = attempts.filter((a) => a.isCorrect).length;
+
+  // 時間切れの場合、未解答問題は不正解扱い
   const wrongAnswers = totalQuestions - correctAnswers;
-  const accuracy = Math.round((correctAnswers / totalQuestions) * 100);
+  const accuracy = totalQuestions > 0
+    ? Math.round((correctAnswers / totalQuestions) * 100)
+    : 0;
   const wrongAnswerRecords = analyzeWrongAnswers(attempts);
 
-  const isPassed =
-    wrongAnswers === 0 && totalTimeSpent <= levelConfig.targetTime;
+  // 時間切れの場合は必ず不合格
+  const isPassed = !isTimedOut &&
+    wrongAnswers === 0 &&
+    totalTimeSpent <= levelConfig.targetTime;
 
   return {
     levelId: levelConfig.id,
@@ -68,6 +76,8 @@ export function createLevelResult(
     totalTimeSpent,
     targetTime: levelConfig.targetTime,
     isPassed,
+    isTimedOut,
+    answeredQuestions,
     wrongAnswerRecords,
     allAttempts: attempts,
     date: new Date().toISOString(),

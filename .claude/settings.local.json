@@ -31,7 +31,12 @@
       "Read(//var/folders/1b/zwdwr51s7wz2bb3t2kfmlvw00000gn/T/TemporaryItems/NSIRD_screencaptureui_fAR5Jz/**)",
       "Bash(npx tsc --noEmit)",
       "Bash(gh:*)",
-      "Bash(vercel --version:*)"
+      "Bash(vercel --version:*)",
+      "Bash(git push)",
+      "Bash(git remote set-url:*)",
+      "Read(//var/folders/1b/zwdwr51s7wz2bb3t2kfmlvw00000gn/T/TemporaryItems/NSIRD_screencaptureui_zzWg8b/**)",
+      "Read(//var/folders/1b/zwdwr51s7wz2bb3t2kfmlvw00000gn/T/TemporaryItems/NSIRD_screencaptureui_UzpQQi/**)",
+      "Read(//var/folders/1b/zwdwr51s7wz2bb3t2kfmlvw00000gn/T/TemporaryItems/NSIRD_screencaptureui_LCWT3l/**)"
     ],
     "deny": [],
     "ask": []

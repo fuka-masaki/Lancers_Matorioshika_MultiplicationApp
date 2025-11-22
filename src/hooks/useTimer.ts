@@ -9,6 +9,7 @@ export function useTimer({ targetTime, onTimeUp }: UseTimerOptions) {
   const [elapsedSeconds, setElapsedSeconds] = useState(0);
   const [isRunning, setIsRunning] = useState(false);
   const intervalRef = useRef<number | null>(null);
+  const hasCalledTimeUp = useRef(false);
 
   const start = useCallback(() => {
     setIsRunning(true);
@@ -21,6 +22,7 @@ export function useTimer({ targetTime, onTimeUp }: UseTimerOptions) {
   const reset = useCallback(() => {
     setElapsedSeconds(0);
     setIsRunning(false);
+    hasCalledTimeUp.current = false;
   }, []);
 
   useEffect(() => {
@@ -45,11 +47,13 @@ export function useTimer({ targetTime, onTimeUp }: UseTimerOptions) {
   const remainingSeconds = targetTime - elapsedSeconds;
   const isOvertime = remainingSeconds < 0;
 
+  // 時間切れ時に1回だけonTimeUpを呼ぶ
   useEffect(() => {
-    if (isOvertime && onTimeUp && remainingSeconds === 0) {
+    if (remainingSeconds <= 0 && onTimeUp && !hasCalledTimeUp.current) {
+      hasCalledTimeUp.current = true;
       onTimeUp();
     }
-  }, [isOvertime, remainingSeconds, onTimeUp]);
+  }, [remainingSeconds, onTimeUp]);
 
   return {
     elapsedSeconds,

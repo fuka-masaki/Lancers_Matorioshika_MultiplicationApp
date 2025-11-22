@@ -1,6 +1,17 @@
 [
   {
     "multiplicand": 1,
+    "multiplier": 0,
+    "answer": 0,
+    "reading": {
+      "multiplicand": "いん",
+      "multiplier": "れい",
+      "equals": "が",
+      "answer": "れい"
+    }
+  },
+  {
+    "multiplicand": 1,
     "multiplier": 1,
     "answer": 1,
     "reading": {
@@ -96,6 +107,17 @@
       "multiplier": "く",
       "equals": "が",
       "answer": "く"
+    }
+  },
+  {
+    "multiplicand": 2,
+    "multiplier": 0,
+    "answer": 0,
+    "reading": {
+      "multiplicand": "に",
+      "multiplier": "れい",
+      "equals": "が",
+      "answer": "れい"
     }
   },
   {
@@ -199,6 +221,17 @@
   },
   {
     "multiplicand": 3,
+    "multiplier": 0,
+    "answer": 0,
+    "reading": {
+      "multiplicand": "さん",
+      "multiplier": "れい",
+      "equals": "が",
+      "answer": "れい"
+    }
+  },
+  {
+    "multiplicand": 3,
     "multiplier": 1,
     "answer": 3,
     "reading": {
@@ -294,6 +327,17 @@
       "multiplier": "く",
       "equals": "",
       "answer": "にじゅうしち"
+    }
+  },
+  {
+    "multiplicand": 4,
+    "multiplier": 0,
+    "answer": 0,
+    "reading": {
+      "multiplicand": "し",
+      "multiplier": "れい",
+      "equals": "が",
+      "answer": "れい"
     }
   },
   {
@@ -397,6 +441,17 @@
   },
   {
     "multiplicand": 5,
+    "multiplier": 0,
+    "answer": 0,
+    "reading": {
+      "multiplicand": "ご",
+      "multiplier": "れい",
+      "equals": "が",
+      "answer": "れい"
+    }
+  },
+  {
+    "multiplicand": 5,
     "multiplier": 1,
     "answer": 5,
     "reading": {
@@ -492,6 +547,17 @@
       "multiplier": "っく",
       "equals": "",
       "answer": "しじゅうご"
+    }
+  },
+  {
+    "multiplicand": 6,
+    "multiplier": 0,
+    "answer": 0,
+    "reading": {
+      "multiplicand": "ろく",
+      "multiplier": "れい",
+      "equals": "が",
+      "answer": "れい"
     }
   },
   {
@@ -595,6 +661,17 @@
   },
   {
     "multiplicand": 7,
+    "multiplier": 0,
+    "answer": 0,
+    "reading": {
+      "multiplicand": "しち",
+      "multiplier": "れい",
+      "equals": "が",
+      "answer": "れい"
+    }
+  },
+  {
+    "multiplicand": 7,
     "multiplier": 1,
     "answer": 7,
     "reading": {
@@ -694,6 +771,17 @@
   },
   {
     "multiplicand": 8,
+    "multiplier": 0,
+    "answer": 0,
+    "reading": {
+      "multiplicand": "はち",
+      "multiplier": "れい",
+      "equals": "が",
+      "answer": "れい"
+    }
+  },
+  {
+    "multiplicand": 8,
     "multiplier": 1,
     "answer": 8,
     "reading": {
@@ -789,6 +877,17 @@
       "multiplier": "く",
       "equals": "",
       "answer": "しちじゅうに"
+    }
+  },
+  {
+    "multiplicand": 9,
+    "multiplier": 0,
+    "answer": 0,
+    "reading": {
+      "multiplicand": "く",
+      "multiplier": "れい",
+      "equals": "が",
+      "answer": "れい"
     }
   },
   {
